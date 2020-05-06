@@ -53,7 +53,7 @@ class Calls extends Component {
   };
 
   getCalls = async () => {
-    const vmBoxID = "b37675a2d7b90d60f0ee5d4175502394";
+    const vmBoxID = this.props.match.params.vmBoxID;
     const response = await this.props.getCallsList(vmBoxID);
     if (response.status === "success") {
       this.setState({
@@ -81,7 +81,7 @@ class Calls extends Component {
   };
 
   handleChangeFolder = async (id, oldFolder, newFolder) => {
-    const vmBoxID = "b37675a2d7b90d60f0ee5d4175502394";
+    const vmBoxID = this.props.match.params.vmBoxID;
     console.log({ id, oldFolder, newFolder });
     await this.setState({ callChanging: { id, oldFolder, newFolder } });
     const data = { data: { folder: newFolder } };
