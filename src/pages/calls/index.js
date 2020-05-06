@@ -106,7 +106,7 @@ class Calls extends Component {
 
   render() {
     return (
-      <TemplateUI title="Calls" back={false}>
+      <TemplateUI title="Calls" back={true}>
         <Container>
           <Typography variant="h4">Calls List</Typography>
           <div style={{ padding: 50 }}>
