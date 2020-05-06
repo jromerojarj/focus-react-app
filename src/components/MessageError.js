@@ -17,7 +17,7 @@ const MessageError = (props) => (
   >
     <Box>
       <Box>
-        <img src={ErrorImage} width={300} />
+        <img src={ErrorImage} width={300} alt={"error"} />
       </Box>
       <Typography variant="h6" align="center">
         {props.text}

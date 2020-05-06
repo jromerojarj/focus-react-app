@@ -1,6 +1,10 @@
 // Dependencies
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+
+// Actions
+import * as callsActions from "../../actions/callsActions";
 
 // Components
 import { TemplateUI } from "../../components/";
@@ -20,4 +24,8 @@ class Calls extends Component {
   }
 }
 
-export default withRouter(Calls);
+const mapStateToProps = (reducers) => ({
+  callsData: reducers.calls.data,
+});
+
+export default withRouter(connect(mapStateToProps, callsActions)(Calls));
