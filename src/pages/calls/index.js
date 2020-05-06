@@ -16,13 +16,13 @@ import {
   Loader,
   MessageEmpty,
   MessageError,
+  ButtonAction,
 } from "../../components/";
 
 // Material UI
 import {
   Container,
   Box,
-  Icon,
   Table,
   TableBody,
   TableCell,
@@ -40,6 +40,11 @@ class Calls extends Component {
     loading: true,
     callsData: [],
     error: false,
+    callChanging: {
+      id: "",
+      oldFolder: "",
+      newFolder: "",
+    },
   };
 
   componentDidMount = async () => {
@@ -54,11 +59,30 @@ class Calls extends Component {
         callsData: this.props.callsData.data,
         error: false,
         loading: false,
+        callChanging: {
+          id: "",
+          oldFolder: "",
+          newFolder: "",
+        },
       });
     } else if (response.status === "error") {
-      this.setState({ callsData: [], error: true, loading: false });
+      this.setState({
+        callsData: [],
+        error: true,
+        loading: false,
+        callChanging: {
+          id: "",
+          oldFolder: "",
+          newFolder: "",
+        },
+      });
     }
   };
+
+  handleChangeFolder = async (id, oldFolder, newFolder) => {
+    console.log({ id, oldFolder, newFolder });
+  };
+
   render() {
     return (
       <TemplateUI title="Calls" back={false}>
@@ -91,6 +115,9 @@ class Calls extends Component {
                           </TableCell>
                           <TableCell align="center" fontWeight="fontWeightBold">
                             <Box fontWeight="fontWeightBold">Duration</Box>
+                          </TableCell>
+                          <TableCell align="center" fontWeight="fontWeightBold">
+                            <Box fontWeight="fontWeightBold">Actions</Box>
                           </TableCell>
                         </TableRow>
                       </TableHead>
@@ -134,6 +161,73 @@ class Calls extends Component {
                               )} minutes : ${moment
                                 .duration(call.length, "seconds")
                                 .seconds()} seconds`}
+                            </TableCell>
+                            <TableCell
+                              align="center"
+                              component="th"
+                              scope="row"
+                            >
+                              <Box
+                                color={
+                                  call.folder === "new"
+                                    ? blue
+                                    : call.folder === "saved"
+                                    ? green.A700
+                                    : red
+                                }
+                                style={{
+                                  display: "grid",
+                                  gridTemplateColumns: "1fr 1fr 1fr",
+                                  alignItems: "center",
+                                  justifyItems: "center",
+                                }}
+                              >
+                                <ButtonAction
+                                  text="New"
+                                  color="blue"
+                                  disabled={
+                                    call.folder !== "new" ? true : false
+                                  }
+                                  handleChangeFolder={{
+                                    id: call.media_id,
+                                    idSelected: this.state.callChanging.id,
+                                    oldFolder: call.folder,
+                                    newFolder: this.state.callChanging
+                                      .newFolder,
+                                    action: this.handleChangeFolder,
+                                  }}
+                                />
+                                <ButtonAction
+                                  text="Save"
+                                  color="green"
+                                  disabled={
+                                    call.folder !== "saved" ? true : false
+                                  }
+                                  handleChangeFolder={{
+                                    id: call.media_id,
+                                    idSelected: this.state.callChanging.id,
+                                    oldFolder: call.folder,
+                                    newFolder: this.state.callChanging
+                                      .newFolder,
+                                    action: this.handleChangeFolder,
+                                  }}
+                                />
+                                <ButtonAction
+                                  text="Delete"
+                                  color="red"
+                                  disabled={
+                                    call.folder !== "deleted" ? true : false
+                                  }
+                                  handleChangeFolder={{
+                                    id: call.media_id,
+                                    idSelected: this.state.callChanging.id,
+                                    oldFolder: call.folder,
+                                    newFolder: this.state.callChanging
+                                      .newFolder,
+                                    action: this.handleChangeFolder,
+                                  }}
+                                />
+                              </Box>
                             </TableCell>
                           </TableRow>
                         ))}
