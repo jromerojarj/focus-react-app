@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import moment from "moment";
+import { store } from "react-notifications-component";
 
 // Actions
 import * as callsActions from "../../actions/callsActions";
@@ -80,7 +81,27 @@ class Calls extends Component {
   };
 
   handleChangeFolder = async (id, oldFolder, newFolder) => {
+    const vmBoxID = "b37675a2d7b90d60f0ee5d4175502394";
     console.log({ id, oldFolder, newFolder });
+    await this.setState({ callChanging: { id, oldFolder, newFolder } });
+    const data = { data: { folder: newFolder } };
+    const response = await this.props.postCall(vmBoxID, id, data);
+    if (response.status === "success") {
+      store.addNotification({
+        title: "Success",
+        message: `State changed from ${oldFolder} to ${newFolder}`,
+        type: "success",
+        container: "top-right",
+      });
+    } else {
+      store.addNotification({
+        title: "Error",
+        message: `Error to change state from ${oldFolder} to ${newFolder}`,
+        type: "error",
+        container: "top-right",
+      });
+    }
+    await this.getCalls();
   };
 
   render() {

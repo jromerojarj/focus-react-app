@@ -15,3 +15,17 @@ export const GetCallsList = {
     return callsList;
   },
 };
+
+export const PostCall = {
+  async postCall(vmBoxID, messageID, data) {
+    let call = await request
+      .post(`/calls/${vmBoxID}/message/${messageID}`, data)
+      .catch((error) => {
+        let call = {
+          error,
+        };
+        return call;
+      });
+    return call;
+  },
+};
