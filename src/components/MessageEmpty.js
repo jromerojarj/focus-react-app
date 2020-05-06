@@ -2,7 +2,7 @@
 import React from "react";
 
 // MaterialUI
-import { Grid, CardMedia, Box, Typography } from "@material-ui/core";
+import { Grid, Box, Typography } from "@material-ui/core";
 
 // Image
 import EmptyImage from "../assets/images/empty.png";
